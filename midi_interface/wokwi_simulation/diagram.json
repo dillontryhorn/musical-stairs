@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "author": "Dillon Tryhorn",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-s3-devkitc-1", "id": "esp", "top": 0, "left": 0, "attrs": {} },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "stair0",
+      "top": -41.8,
+      "left": 278.4,
+      "attrs": { "label": "1: C4 (60)", "key": "1", "color": "green", "bounce": "0" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "stair1",
+      "top": -41.8,
+      "left": 393.6,
+      "attrs": { "label": "2: D4 (62)", "key": "2", "color": "green", "bounce": "0" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "stair2",
+      "top": -41.8,
+      "left": 499.2,
+      "attrs": { "label": "3: E4 (64)", "key": "3", "color": "green", "bounce": "0" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "stair3",
+      "top": -41.8,
+      "left": 604.8,
+      "attrs": { "label": "4: F4 (65)", "key": "4", "color": "green", "bounce": "0" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "stair4",
+      "top": 102.2,
+      "left": 278.4,
+      "attrs": { "label": "5: G4 (67)", "key": "5", "color": "blue", "bounce": "0" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "stair5",
+      "top": 100,
+      "left": 390,
+      "attrs": { "label": "6: A4 (69)", "key": "6", "color": "blue", "bounce": "0" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "stair6",
+      "top": 100,
+      "left": 500,
+      "attrs": { "label": "7: B4 (71)", "key": "7", "color": "blue", "bounce": "0" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "stair7",
+      "top": 100,
+      "left": 610,
+      "attrs": { "label": "8: C5 (72)", "key": "8", "color": "blue", "bounce": "0" }
+    }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "stair0:1.l", "esp:4", "green", [ "v-28.8", "h-393.6", "v115.38" ] ],
+    [ "stair1:1.l", "esp:5", "green", [ "v-38.4", "h-524.4", "v134.58" ] ],
+    [ "stair2:1.l", "esp:6", "green", [ "v-48", "h-644", "v153.78" ] ],
+    [ "stair3:1.l", "esp:7", "green", [ "v-57.6", "h-763.6", "v172.98" ] ],
+    [ "stair4:1.l", "esp:8", "blue", [ "h-20.8", "v232.6", "h-364.8", "v-213.4", "h112.28" ] ],
+    [ "stair5:1.l", "esp:9", "blue", [ "h-25.2", "v223", "h-460.8", "v-172.62" ] ],
+    [ "stair6:1.l", "esp:10", "blue", [ "h-20", "v213.4", "h-566.4", "v-153.42" ] ],
+    [ "stair7:1.l", "esp:11", "blue", [ "h-24.4", "v203.8", "h-662.4", "v-134.22" ] ],
+    [ "stair0:2.l", "esp:GND.2", "black", [ "h0" ] ],
+    [ "stair0:2.l", "stair1:2.l", "black", [ "v38.6", "h115.2" ] ],
+    [ "stair1:2.l", "stair2:2.l", "black", [ "v38.6", "h105.6" ] ],
+    [ "stair2:2.l", "stair3:2.l", "black", [ "v38.6", "h105.6" ] ],
+    [ "esp:GND.3", "stair4:2.l", "black", [ "h0" ] ],
+    [ "stair4:2.l", "stair5:2.l", "black", [ "v40.8", "h110" ] ],
+    [ "stair5:2.l", "stair6:2.l", "black", [ "v40.8", "h110" ] ],
+    [ "stair6:2.l", "stair7:2.l", "black", [ "v40.8", "h110" ] ]
+  ],
+  "serialMonitor": { "convertEol": true, "display": "always", "newline": "lf" },
+  "dependencies": {}
+}
