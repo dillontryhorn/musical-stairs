@@ -1,0 +1,69 @@
+# ESP-IDF generated builds and local configuration
+build/
+build-*/
+sdkconfig
+sdkconfig.old
+sdkconfig.old.*
+managed_components/
+.espressif/
+.idf/
+
+# Generated CMake and compiler output
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+install_manifest.txt
+CTestTestfile.cmake
+compile_commands.json
+*.o
+*.a
+*.elf
+*.map
+*.bin
+*.out
+*.exe
+
+# Machine-specific editors and language servers
+.vscode/
+.idea/
+.clangd/
+.ccls-cache/
+*.user
+*.suo
+*.sln.docstates
+
+# Python tooling and virtual environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+# Operating system metadata
+.DS_Store
+.AppleDouble
+.LSOverride
+.directory
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Shared configuration and dependency resolutions remain tracked.
+!sdkconfig.defaults
+!sdkconfig.defaults.*
+!dependencies.lock
