@@ -24,11 +24,7 @@ void setup()
         pinMode(button_pins[stair], INPUT_PULLUP);
     }
     Serial.println("Musical stairs: Wokwi simulation");
-#if HOLD_NOTES_WHILE_PRESSED
-    Serial.println("Notes hold while a button is down and stop on release.");
-#else
-    Serial.printf("Each button press triggers one %d ms note; holding does not repeat.\n", NOTE_DURATION_MS);
-#endif
+    Serial.printf("Each button press triggers one %d ms note.\n", NOTE_DURATION_MS);
     Serial.println("This simulator cannot generate audio or use ESP-NOW, so it is mainly used for validating USB MIDI messages.");
     send_midi(0xB0 | MIDI_CHANNEL, 120, 0); // All sound off
 }
