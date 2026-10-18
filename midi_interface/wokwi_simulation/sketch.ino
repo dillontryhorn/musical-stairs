@@ -1,5 +1,8 @@
+// Project Headers
 #include "esp_timer.h"
 #include "stair_player.h"
+
+// Dillon Tryhorn 2026
 
 // Buttons stand in for footstep messages from the other ESP32 boards
 static const uint8_t button_pins[] = {4, 5, 6, 7, 8, 9, 10, 11};
@@ -20,7 +23,8 @@ static bool send_midi(uint8_t status, uint8_t note, uint8_t velocity)
 void setup()
 {
     Serial.begin(115200);
-    for (size_t stair = 0; stair < STAIR_COUNT; stair++) {
+    for (size_t stair = 0; stair < STAIR_COUNT; stair++) 
+	{
         pinMode(button_pins[stair], INPUT_PULLUP);
     }
     Serial.println("Musical stairs: Wokwi simulation");
@@ -34,7 +38,8 @@ void loop()
     int64_t now = esp_timer_get_time();
     stair_player_poll(&player, now, send_midi);
 
-    for (size_t stair = 0; stair < STAIR_COUNT; stair++) {
+    for (size_t stair = 0; stair < STAIR_COUNT; stair++) 
+	{
         bool pressed = digitalRead(button_pins[stair]) == LOW;
         stair_player_set_input(&player, (uint8_t)stair, pressed ? 100 : 0, now, send_midi);
     }
