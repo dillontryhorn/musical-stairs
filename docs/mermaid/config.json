@@ -1,0 +1,32 @@
+{
+  "layout": "elk",
+  "theme": "base",
+  "fontFamily": "Arial, Helvetica, sans-serif",
+  "htmlLabels": true,
+  "themeVariables": {
+    "fontSize": "18px",
+    "dropShadow": "none",
+    "primaryTextColor": "#172b4d",
+    "lineColor": "#475569",
+    "edgeLabelBackground": "#ffffff",
+    "clusterBkg": "#ffffff",
+    "clusterBorder": "#94a3b8"
+  },
+  "flowchart": {
+    "useMaxWidth": false,
+    "curve": "linear",
+    "nodeSpacing": 40,
+    "rankSpacing": 80,
+    "diagramPadding": 24,
+    "padding": 18,
+    "wrappingWidth": 260,
+    "minNodeWidth": 200,
+    "subGraphTitleMargin": {
+      "top": 12,
+      "bottom": 24
+    }
+  },
+  "elk": {
+    "mergeEdges": false
+  }
+}

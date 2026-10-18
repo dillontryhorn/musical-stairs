@@ -1,0 +1,63 @@
+flowchart LR
+    %% Signal flow only, power and programming connections are omitted for now
+    %% Packets contain a stair index and velocity: 1-127 = press, 0 = release
+    Sensors["Stair IR sensor array<br/>8 stairs"]
+
+    subgraph SensorNode["ESP32: Sensor Controller<br/>"]
+        direction TB
+        ReadSensors["Read and debounce<br/>occupied / clear states"]
+        StairEvents["Encode press / release<br/>stair index + velocity"]
+        ReadSensors --> StairEvents
+    end
+
+    subgraph TestNode["ESP32-S3: Test Sender"]
+        direction TB
+        TestPatterns["Automatic stair tests<br/>Ascending / overlapping notes<br/>Repeated press updates"]
+        TestEvents["Send press / release<br/>Receiver MAC, Wi-Fi channel 1"]
+        TestPatterns --> TestEvents
+    end
+
+    subgraph MidiNode["ESP32-S3: MIDI Interface"]
+        direction TB
+        Receive["Receive ESP-NOW<br/>Queue, validate, and log events"]
+        Ready["Play only when keyboard ready<br/>Discard events otherwise"]
+        Notes["Map stairs 0-7 to C4-C5<br/>One 500 ms note per press<br/>Release rearms the next press"]
+        USB["Native USB MIDI host<br/>MIDI Note On / Note Off"]
+        Receive --> Ready --> Notes --> USB
+    end
+
+    subgraph AudioNode["ESP32: Speaker Output<br/>"]
+        direction TB
+        Synthesis["Receive stair events<br/>and generate note audio"]
+        AudioOut["Audio output<br/>interface to be selected"]
+        Synthesis --> AudioOut
+    end
+
+    Keyboard["USB MIDI keyboard<br/>Casio Casiotone CT-S190<br/>Built-in sound output"]
+    Amplifier["Audio amplifier<br/>"]
+    Speaker["Speaker<br/>"]
+
+    %% Connect group boundaries so wires never run through group titles
+    %% ESP-NOW is a peer-to-peer link
+    Sensors -->|Sensor states| SensorNode
+    SensorNode -->|"ESP-NOW<br/>stair events"| MidiNode
+    SensorNode -->|"ESP-NOW<br/>event link"| AudioNode
+    TestNode -->|"ESP-NOW unicast<br/>2-byte stair / velocity"| MidiNode
+    MidiNode -->|USB MIDI| Keyboard
+    AudioNode -->|Audio signal| Amplifier
+    Amplifier -->|Amplified audio| Speaker
+
+    classDef sensor fill:#ecfdf5,stroke:#15803d,color:#14532d,stroke-width:1.5px
+    classDef test fill:#f5f3ff,stroke:#7c3aed,color:#4c1d95,stroke-width:1.5px
+    classDef midi fill:#eff6ff,stroke:#2563eb,color:#1e3a8a,stroke-width:1.5px
+    classDef audio fill:#fff7ed,stroke:#c2410c,color:#7c2d12,stroke-width:1.5px
+	
+    class Sensors,ReadSensors,StairEvents sensor
+    class TestPatterns,TestEvents test
+    class Receive,Ready,Notes,USB,Keyboard midi
+    class Synthesis,AudioOut,Amplifier,Speaker audio
+
+    style SensorNode fill:#f7fdf9,stroke:#86b89a,stroke-width:1.5px
+    style TestNode fill:#faf8ff,stroke:#b89ae6,stroke-width:1.5px
+    style MidiNode fill:#f7faff,stroke:#93b4e7,stroke-width:1.5px
+    style AudioNode fill:#fffbf5,stroke:#e5b382,stroke-width:1.5px

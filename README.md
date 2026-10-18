@@ -1,6 +1,10 @@
 # Musical Stairs
 
-ESP-NOW stair press/release messages -> ESP32-S3 USB Host -> MIDI Keyboard
+More coming soon!
+
+## System Block Diagram
+
+![Musical Stairs system block diagram](docs/mermaid/block_diagram.png)
 
 ## MIDI Interface
 
@@ -45,9 +49,9 @@ connector routing, with rendering settings in `docs/mermaid/config.json`.
 npm install -g @mermaid-js/mermaid-cli@12
 
 cd .\docs\mermaid
-mmdc -i block_diagram.mmd -o output.png --scale 3 --size 1920 -c config.json
+mmdc -i block_diagram.mmd -o block_diagram.png --scale 3 --size 1920 -c config.json
 
-mmdc -i block_diagram.mmd -o output.png --scale 1 --size 1920 -c config.json
+mmdc -i block_diagram.mmd -o block_diagram.png --scale 1 --size 1920 -c config.json
 ```
 
 For interactive editing, use [Mermaid Live](https://mermaid.live/); include the
