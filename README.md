@@ -1,22 +1,24 @@
 # Musical Stairs
-More to come
+
+ESP-NOW stair press/release messages -> ESP32-S3 USB Host -> MIDI Keyboard
 
 ## MIDI Interface
 
-COMING SOON
-See [midi_interface/midi_esp32s3_implementation/README.md](midi_interface/midi_esp32s3_implementation/README.md) for the ESP32-S3 USB MIDI host, ESP-NOW message format, and keyboard wiring.
+See [midi_interface/midi_esp32s3/README.md](midi_interface/midi_esp32s3/README.md) for the ESP32-S3 MIDI receiver. It receives stair press/release messages over ESP-NOW and sends USB MIDI notes to the Casio Casiotone CT-S190. The README covers keyboard wiring, building, and debugging.
 
-See [midi_interface/wokwi_simulation/README.md](midi_interface/wokwi_simulation/README.md) for the standalone Wokwi button/serial simulation and browser import steps.
+See [midi_interface/test_espnow_esp32s3/README.md](midi_interface/test_espnow_esp32s3/README.md) for the ESP-NOW test sender. A second ESP32-S3 automatically tests ascending stairs, overlapping notes, and repeated presses without buttons or sensors.
 
-COMING SOON
-See [midi_interface/midi_esp32s3_test_sender/README.md](midi_interface/midi_esp32s3_test_sender/README.md) for a second ESP32-S3 that sends test presses and releases to the MIDI receiver.
+Set `receiver_mac` in the test sender's `main/esp_now_test_sender.c` to the receiver's printed `MIDI receiver MAC`. Keep `STAIR_WIFI_CHANNEL` the same on both boards. The default is channel 1. Radio reception can be checked without a keyboard, but audio requires a connected and ready MIDI device.
 
-Both the firmware and Wokwi copies of `stair_player.h` use `HOLD_NOTES_WHILE_PRESSED`: `1` (default) sustains until release; `0` plays one 300 ms note per press. Keep the flag the same in both copies. ESP-NOW senders must use the two-byte stair/velocity format and send both press and release states.
+See [midi_interface/wokwi_simulation/README.md](midi_interface/wokwi_simulation/README.md) for the Wokwi button/serial simulation and browser import steps. It tests the note logic without ESP-NOW or audio output.
+
+Each press plays one `NOTE_DURATION_MS` note: 500 ms by default on the MIDI receiver and 300 ms in Wokwi. ESP-NOW senders use a two-byte stair/velocity message: velocity `1-127` means press and `0` means release. Releases rearm the next press; holding a stair does not repeat its note.
 
 ## Minimal ESP Instructions
 
 Open an ESP-IDF enabled powershell prompt
 
+```powershell
 cd <to/target/directory>
 
 idf.py set-target esp32 # for ESP32
@@ -28,3 +30,25 @@ idf.py flash monitor # auto detects active ESP module, flashes the board, and op
 idf.py -p COM5 flash monitor # manually overrides ESP COM location
 
 Ctrl+] # exit the serial monitor
+
+# If you need help finding the correct COM port
+[System.IO.Ports.SerialPort]::GetPortNames()
+python -m esptool -p <COM_PORT> chip-id
+```
+
+## Mermaid Instructions
+
+Requires Node.js and Mermaid CLI 12. The diagram uses ELK layout for
+connector routing, with rendering settings in `docs/mermaid/config.json`.
+
+```powershell
+npm install -g @mermaid-js/mermaid-cli@12
+
+cd .\docs\mermaid
+mmdc -i block_diagram.mmd -o output.png --scale 3 --size 1920 -c config.json
+
+mmdc -i block_diagram.mmd -o output.png --scale 1 --size 1920 -c config.json
+```
+
+For interactive editing, use [Mermaid Live](https://mermaid.live/); include the
+settings from `config.json` when previewing the layout.
