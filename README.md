@@ -8,6 +8,10 @@ More coming soon!
 
 ## MIDI Interface
 
+See [stepSensor/README.md](stepSensor/README.md) for the IR step sensor firmware,
+including wiring, per-stair configuration, diagnostic LEDs, and ESP-NOW messages
+to the MIDI receiver.
+
 See [midi_interface/midi_esp32s3/README.md](midi_interface/midi_esp32s3/README.md) for the ESP32-S3 MIDI receiver. It receives stair press/release messages over ESP-NOW and sends USB MIDI notes to the Casio Casiotone CT-S190. The README covers keyboard wiring, building, and debugging.
 
 See [midi_interface/test_espnow_esp32s3/README.md](midi_interface/test_espnow_esp32s3/README.md) for the ESP-NOW test sender. A second ESP32-S3 automatically tests ascending stairs, overlapping notes, and repeated presses without buttons or sensors.
