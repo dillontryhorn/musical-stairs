@@ -6,6 +6,7 @@
 
 // Buttons stand in for footstep messages from the other ESP32 boards
 static const uint8_t button_pins[] = {4, 5, 6, 7, 8, 9, 10, 11};
+static const uint8_t led_pins[] = {35, 36, 37, 38, 39, 40, 41, 42};
 static_assert(sizeof(button_pins) == STAIR_COUNT, "Provide one button per stair"); //when adding more stairs
 static stair_player_t player;
 
@@ -23,14 +24,16 @@ static bool send_midi(uint8_t status, uint8_t note, uint8_t velocity)
 void setup()
 {
     Serial.begin(115200);
-    for (size_t stair = 0; stair < STAIR_COUNT; stair++) 
-	{
-        pinMode(button_pins[stair], INPUT_PULLUP);
-    }
     Serial.println("Musical stairs: Wokwi simulation");
     Serial.printf("Each button press triggers one %d ms note.\n", NOTE_DURATION_MS);
     Serial.println("This simulator cannot generate audio or use ESP-NOW, so it is mainly used for validating USB MIDI messages.");
     send_midi(0xB0 | MIDI_CHANNEL, 120, 0); // All sound off
+
+  for (size_t stair = 0; stair < STAIR_COUNT; stair++) {
+      pinMode(button_pins[stair], INPUT_PULLUP);
+      pinMode(led_pins[stair], OUTPUT);
+      digitalWrite(led_pins[stair], LOW);
+  }
 }
 
 void loop()
@@ -42,6 +45,7 @@ void loop()
 	{
         bool pressed = digitalRead(button_pins[stair]) == LOW;
         stair_player_set_input(&player, (uint8_t)stair, pressed ? 100 : 0, now, send_midi);
+        digitalWrite(led_pins[stair], player.note_until[stair] > now ? HIGH : LOW);
     }
     delay(1);
 }
